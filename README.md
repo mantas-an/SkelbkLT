@@ -10,5 +10,5 @@ This project is currently in development.
 
 ### 1. Clone the repository
 ```bash
-git clone https://github.com/your-username/skelbklt.git
+git clone https://github.com/mantas-an/SkelbkLt.git
 cd skelbklt
