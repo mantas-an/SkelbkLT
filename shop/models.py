@@ -18,8 +18,8 @@ class CustomUser (AbstractUser):
     profile_picture = models.ImageField(upload_to='profile_pics/', blank=True)
     city = models.CharField(max_length=50, blank=True, help_text="Gyvenamasis miestas")
     ACCOUNT_TYPE_CHOICES = [
-        ('Privatus asmuo', '(parduodu tik savo asmeninius daiktus)'),
-        ('Įmonė', '(vykdau komercinę veiklą)'),
+        ('Privatus_asmuo', 'Privatus asmuo'),
+        ('Įmonė', 'Įmonė'),
     ]
     account_type = models.CharField(
         max_length=20,
@@ -54,3 +54,38 @@ class Category(models.Model):
             path.append(current.name)
             current = current.parent
         return '/'.join(reversed(path))
+
+
+class Card(models.Model):
+    name = models.CharField(max_length=150, help_text= 'Kortlės pavadinimas')
+    category = models.ForeignKey(Category, on_delete=models.PROTECT)
+    image = models.ImageField(upload_to='card_pics/', blank=True)
+    set_name = models.CharField(max_length=50, verbose_name='Card set name', help_text='Rinkinio pavadinimas')
+    RARITY_CHOICES = [
+        ('C', 'Common'),
+        ('UC', 'Uncommon'),
+        ('R', 'Rare'),
+        ('SR', 'Super Rare'),
+        ('HR', 'Holo Rare'),
+        ('UR', 'Ultra Rare'),
+        ('ScR', 'Secret Rare'),
+        ('P', 'Promo'),
+
+
+    ]
+    rarity = models.CharField(max_length=3, choices=RARITY_CHOICES)
+
+    FINISH_CHOICES =[
+        ('NON_HOLO', 'Non-Holo'),
+        ('HOLO', 'Holo'),
+        ('REVERSE_HOLO', 'Reverse Holo'),
+        ('TEXTURED', 'Textured Holo'),
+        ('RAINBOW', 'Rainbow Rare'),
+        ('GOD', 'God Rare'),
+        ('ALT_ART', 'Alternate Art'),
+        ('FULL_ART', 'Full Art'),
+    ]
+    finish = models.CharField(max_length=13, choices=FINISH_CHOICES)
+
+
+
