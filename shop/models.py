@@ -3,6 +3,8 @@ from autoslug.settings import slugify
 from django.contrib.auth.models import AbstractUser
 from django.core.validators import RegexValidator
 from django.db import models
+from polymorphic.models import PolymorphicModel
+
 
 # Create your models here.
 class CustomUser (AbstractUser):
@@ -65,10 +67,22 @@ class Category(models.Model):
             current = current.parent
         return '/'.join(reversed(path))
 
+#Bazinis modelis visiem parduodamiems produktams (cards,sealed products, accessories etc)
+class Product(PolymorphicModel):
+    name = models.CharField(verbose_name='Produkto pavadinimas', max_length=120)
+    category = models.ForeignKey('Category', on_delete=models.PROTECT)
+    created_at = models.DateTimeField(auto_now_add=True)
 
-class Card(models.Model):
-    name = models.CharField(max_length=150, help_text= 'Kortlės pavadinimas')
-    category = models.ForeignKey(Category, on_delete=models.PROTECT)
+    def __str__(self):
+        return self.name
+
+
+
+
+
+class Card(Product):
+    #card_name = models.CharField(max_length=150, help_text= 'Kortlės pavadinimas')
+    #card_category = models.ForeignKey(Category, on_delete=models.PROTECT)
     image = models.ImageField(upload_to='card_pics/', blank=True)
     set_name = models.CharField(max_length=50, verbose_name='Card set name', help_text='Rinkinio pavadinimas')
     RARITY_CHOICES = [
@@ -83,7 +97,7 @@ class Card(models.Model):
 
 
     ]
-    rarity = models.CharField(max_length=3, choices=RARITY_CHOICES)
+    rarity = models.CharField(max_length=3, choices=RARITY_CHOICES, default='C', verbose_name='Retumas')
 
     FINISH_CHOICES =[
         ('NON_HOLO', 'Non-Holo'),
@@ -95,7 +109,21 @@ class Card(models.Model):
         ('ALT_ART', 'Alternate Art'),
         ('FULL_ART', 'Full Art'),
     ]
-    finish = models.CharField(max_length=13, choices=FINISH_CHOICES)
+    finish = models.CharField(max_length=13, choices=FINISH_CHOICES, default='NON_HOLO', verbose_name='Ypatybės')
 
 
+
+
+class SealedProduct(Product):
+    image = models.ImageField(upload_to='sealed_product_pics/', blank=True)
+    set_name = models.CharField(max_length=50, verbose_name='Set name', help_text='Rinkinio pavadinimas')
+    PRODUCT_TYPE =[
+        ('BOOSTER_BOX', 'Booster Box'),
+        ('ETB', 'Elite Trainer Box'),
+        ('STARTER_DECK', 'Starter Deck'),
+        ('BOOSTER_PACK', 'Booster Pack'),
+        ('BUNDLE', 'Bundle')
+    ]
+    product_type = models.CharField(max_length=20, choices=PRODUCT_TYPE)
+    release_year = models.IntegerField(blank=True)
 
