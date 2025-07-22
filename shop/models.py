@@ -49,8 +49,9 @@ class Category(models.Model):
         populate_from='name', #automatiskai generatinam slug is name kintamojo
         unique=True, #jokiu duplikatu
         slugify=slugify, #handlina lietuviskas raides
-        always_update=False, #slug pasilieka toks pat jei paiskeicia name
-        verbose_name='URL'
+        always_update=False,#slug pasilieka toks pat jei paiskeicia name
+        editable=False,
+
     )
     order = models.PositiveIntegerField(default=0) #Rikiavimas
 

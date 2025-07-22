@@ -4,8 +4,20 @@ from polymorphic.admin import PolymorphicParentModelAdmin, PolymorphicChildModel
 # Register your models here.
 
 admin.site.register(CustomUser)
-admin.site.register(Category)
 admin.site.register(Listing)
+
+@admin.register(Category)
+class CategoryAdmin(admin.ModelAdmin):
+    list_display = ('name', 'parent', 'order', 'slug')
+    list_editable = ('order',)
+    list_filter = ('parent',)
+    search_fields = ('name',)
+
+    fieldsets = (
+        (None, {'fields': ('name', 'parent', 'order')}),
+        ('Advanced', {'fields': ('slug',)}),
+    )
+    readonly_fields = ('slug',)
 
 @admin.register(Product)
 class ProductAdmin(PolymorphicParentModelAdmin):
