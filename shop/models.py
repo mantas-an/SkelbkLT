@@ -167,6 +167,7 @@ class Listing(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
     is_active = models.BooleanField(default=True)
+    custom_image = models.ImageField(upload_to='listing_images/', blank=True, null=True)
     STATUS_CHOICES = [
         ('ACTIVE', 'Active'),
         ('SOLD', 'Sold'),
