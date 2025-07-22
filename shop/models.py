@@ -4,6 +4,7 @@ from django.contrib.auth.models import AbstractUser
 from django.core.validators import RegexValidator
 from django.db import models
 from polymorphic.models import PolymorphicModel
+from djmoney.models.fields import MoneyField
 
 
 # Create your models here.
@@ -67,17 +68,26 @@ class Category(models.Model):
             current = current.parent
         return '/'.join(reversed(path))
 
+
+
+
+
+
+
+#-----------------------------------------------------------------------------------------
 #Bazinis modelis visiem parduodamiems produktams (cards,sealed products, accessories etc)
+
 class Product(PolymorphicModel):
     name = models.CharField(verbose_name='Produkto pavadinimas', max_length=120)
     category = models.ForeignKey('Category', on_delete=models.PROTECT)
     created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
 
     def __str__(self):
         return self.name
 
-
-
+#---------------------------------------------------------------------------------------
+#-----------------------------------VISI PRODUKTAI-----------------------------------------
 
 
 class Card(Product):
@@ -111,6 +121,9 @@ class Card(Product):
     ]
     finish = models.CharField(max_length=13, choices=FINISH_CHOICES, default='NON_HOLO', verbose_name='Ypatybės')
 
+    def __str__(self):
+        return f"{self.name} ({self.set_name})"
+
 
 
 
@@ -127,3 +140,44 @@ class SealedProduct(Product):
     product_type = models.CharField(max_length=20, choices=PRODUCT_TYPE)
     release_year = models.IntegerField(blank=True)
 
+    def __str__(self):
+        return f"{self.name} ({self.set_name})"
+
+
+#-----------------------------------VISI PRODUKTAI END-----------------------------------------
+
+
+
+
+#---------------------------------------LISTING ----------------------------------------------------
+
+class Listing(models.Model):
+    product = models.ForeignKey(Product, on_delete=models.PROTECT)
+    seller = models.ForeignKey(CustomUser, on_delete=models.CASCADE)
+    price = MoneyField(max_digits=10, decimal_places=2, default_currency='EUR')
+    CONDITION_CHOICES = [
+        ('M', 'Mint'),
+        ('NM', 'Near Mint'),
+        ('LP', 'Lightly Played'),
+        ('HP', 'Heavily Played')
+
+    ]
+    condition = models.CharField(max_length=2, choices=CONDITION_CHOICES, default='NM')
+    quantity = models.PositiveIntegerField(default=1)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+    is_active = models.BooleanField(default=True)
+    STATUS_CHOICES = [
+        ('ACTIVE', 'Active'),
+        ('SOLD', 'Sold'),
+    ]
+
+    status = models.CharField(max_length=6, choices=STATUS_CHOICES, default='ACTIVE')
+    #su meta preventinam nuo pasikartojanciu tu paciu produktu
+    class Meta:
+        constraints = [
+            models.UniqueConstraint(fields=['product', 'seller', 'condition'], name='unique_listing')
+        ]
+
+    def __str__(self):
+        return f"{self.product.name} - {self.get_condition_display()}" #get condition display parodo MUM ISKAITOMAI ne raw data is database

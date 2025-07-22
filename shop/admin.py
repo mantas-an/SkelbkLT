@@ -1,10 +1,11 @@
 from django.contrib import admin
-from .models import CustomUser, Category, Card, Product, SealedProduct
+from .models import CustomUser, Category, Card, Product, SealedProduct, Listing
 from polymorphic.admin import PolymorphicParentModelAdmin, PolymorphicChildModelAdmin
 # Register your models here.
 
 admin.site.register(CustomUser)
 admin.site.register(Category)
+admin.site.register(Listing)
 
 @admin.register(Product)
 class ProductAdmin(PolymorphicParentModelAdmin):
