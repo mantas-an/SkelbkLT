@@ -1,3 +1,5 @@
+from autoslug import AutoSlugField
+from autoslug.settings import slugify
 from django.contrib.auth.models import AbstractUser
 from django.core.validators import RegexValidator
 from django.db import models
@@ -38,7 +40,15 @@ class Category(models.Model):
         blank=True,
         verbose_name='Tevine kategorija'
     )
-    slug = models.SlugField(unique=True) #URL parodomas ne id, o pavadinimas.
+    #slug = models.SlugField(unique=True) URL parodomas ne id, o pavadinimas.
+    #SLUG pakeitimas su django built in autoslug, turiem nested kategorijas/ supportina uniquenes for nested strukturas
+    slug = AutoSlugField(
+        populate_from='name', #automatiskai generatinam slug is name kintamojo
+        unique=True, #jokiu duplikatu
+        slugify=slugify, #handlina lietuviskas raides
+        always_update=False, #slug pasilieka toks pat jei paiskeicia name
+        verbose_name='URL'
+    )
     order = models.PositiveIntegerField(default=0) #Rikiavimas
 
 
