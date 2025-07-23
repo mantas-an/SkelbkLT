@@ -1,9 +1,90 @@
 {% extends 'base.html' %}
-
-
-{%block title %}Homepage{% endblock %}
-
+{% load static %}
+{% block title %}Pagrindinis – TCG Hub Lietuva{% endblock %}
 
 {% block content %}
-<h1>Hello homepage</h1>
+
+<!-- Hero baneris -->
+<div class="lt-hero-container">
+  <img src="{% static 'shop/images/hero-baner.png' %}" alt="Trading Cards Lietuvoje" class="lt-hero-image">
+  <div class="lt-hero-overlay">
+    <div class="lt-hero-text glass">
+      <h1>Susipažink su TCG kolekcionieriais iš visos Lietuvos</h1>
+      <p class="lt-subheading">Parduok, keiskis ar rask kortas savo kolekcijai – viskas vienoje platformoje.</p>
+    </div>
+
+  </div>
+</div>
+
+
+
+<!-- Apie platformą -->
+<section class="container py-5">
+  <div class="glass">
+    <h2>Kas tai?</h2>
+    <p>
+      TCG Hub – tai specializuota kortų kolekcionavimo platforma, kur gali lengvai <strong>pirkti</strong>, <strong>parduoti</strong> ar <strong>keistis</strong> kortomis su kitais entuziastais Lietuvoje.
+    </p>
+    <p>
+      Šiuo metu palaikome <strong>Pokémon</strong>, <strong>Yu-Gi-Oh</strong>, <strong>Magic: The Gathering</strong> ir kitas kolekcijas. Tikslas – suburti TCG bendruomenę vienoje vietoje.
+    </p>
+    <ul class="mt-3">
+      <li>✔️ Greita skelbimų sistema</li>
+      <li>✔️ Tikslinė auditorija – tik TCG mėgėjai</li>
+      <li>✔️ Nemokama registracija ir skelbimų kėlimas</li>
+    </ul>
+  </div>
+</section>
+
+
+<!-- Kaip tai veikia -->
+<section class="container py-5">
+  <div class="glass">
+    <h2>Kaip pradėti?</h2>
+    <ol>
+      <li>📬 Užsiregistruok</li>
+      <li>🖼️ Įkelk skelbimą su kortos info ir foto</li>
+      <li>💬 Susisiek su pirkėju / mainų partneriu</li>
+    </ol>
+    <a href="" class="btn btn-light">Įkelti pirmą skelbimą</a>
+  </div>
+</section>
+
+
+<!-- Naujausi skelbimai -->
+<section class="container py-5">
+  <div class="glass">
+    <h2>Naujausi skelbimai</h2>
+    <div class="row g-4 mt-3">
+      {% for product in latest_products %}
+        <div class="col-md-3">
+          <div class="card h-100">
+            <img src="{{ product.image.url }}" class="card-img-top" alt="{{ product.title }}">
+            <div class="card-body">
+              <h5 class="card-title">{{ product.title }}</h5>
+              <p class="card-text">{{ product.price }} €</p>
+              <a href="" class="btn btn-outline-primary btn-sm">Peržiūrėti</a>
+            </div>
+          </div>
+        </div>
+      {% empty %}
+        <p>Dar nėra skelbimų, bet netrukus bus!</p>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section class="text-center py-5">
+  <div class="glass">
+    <h2>Prisijunk prie TCG bendruomenės</h2>
+    <p>TCG Hub – vieta, kur tavo kolekcija įgauna vertę.</p>
+    {% if user.is_authenticated %}
+      <a href="" class="btn btn-light">Eiti į mano paskyrą</a>
+    {% else %}
+      <a href="{% url 'login' %}" class="btn btn-light">Prisijungti</a>
+    {% endif %}
+  </div>
+</section>
+
 {% endblock %}

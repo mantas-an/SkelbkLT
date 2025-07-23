@@ -1,0 +1,74 @@
+/* theme.css */
+
+/* Global background */
+body {
+  background: linear-gradient(135deg, #0f0f0f, #1a1a1a);
+  color: #f1f1f1;
+  font-family: 'Segoe UI', sans-serif;
+  margin: 0;
+  padding: 0;
+}
+
+/* Apply to containers */
+.glass {
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 1rem;
+  padding: 2rem;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+}
+
+/* Buttons */
+.btn-success {
+  background-color: #27ae60;
+  border: none;
+  color: #fff;
+}
+.btn-success:hover {
+  background-color: #219150;
+}
+
+.btn-outline-light {
+  border: 1px solid #f1f1f1;
+  color: #f1f1f1;
+}
+.btn-outline-light:hover {
+  background-color: #f1f1f1;
+  color: #000;
+}
+
+/* Navbar */
+.navbar {
+  background: rgba(255, 255, 255, 0.05) !important;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.15);
+  backdrop-filter: blur(12px);
+}
+.navbar-brand,
+.nav-link {
+  color: #f1f1f1 !important;
+}
+.nav-link:hover {
+  color: #27ae60 !important;
+}
+
+/* Hero overlay styling */
+.lt-hero-text {
+  background: rgba(0, 0, 0, 0.4);
+  border-radius: 1rem;
+  padding: 2rem;
+}
+
+/* Cards */
+.card {
+  background: rgba(255, 255, 255, 0.08);
+  color: #fff;
+  border: 1px solid rgba(255, 255, 255, 0.15);
+}
+.card-title {
+  color: #fff;
+}
+.card-text {
+  color: #ccc;
+}
