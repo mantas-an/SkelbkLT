@@ -92,8 +92,6 @@ class Product(PolymorphicModel):
 
 
 class Single(Product):
-    #card_name = models.CharField(max_length=150, help_text= 'Kortlės pavadinimas')
-    #card_category = models.ForeignKey(Category, on_delete=models.PROTECT)
     image = models.ImageField(upload_to='single_pics/', blank=True)
     set_name = models.CharField(max_length=50, verbose_name='Card set name', help_text='Rinkinio pavadinimas')
     RARITY_CHOICES = [
