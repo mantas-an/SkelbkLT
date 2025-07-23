@@ -6,6 +6,13 @@ This is a Django-based web application project.
 
 This project is currently in development.
 
+## 🖼️ Screenshots  
+<div align="center">
+  
+  <img src="static/myapp/images/homepage.png" width="45%" alt="Homepage">
+  
+</div>
+
 ## 📦 Setup Instructions
 
 ### 1. Clone the repository
