@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import CustomUser, Category, Card, Product, SealedProduct, Listing
+from .models import CustomUser, Category, Single, Product, SealedProduct, Listing
 from polymorphic.admin import PolymorphicParentModelAdmin, PolymorphicChildModelAdmin
 # Register your models here.
 
@@ -22,15 +22,15 @@ class CategoryAdmin(admin.ModelAdmin):
 @admin.register(Product)
 class ProductAdmin(PolymorphicParentModelAdmin):
     base_model = Product
-    child_models = (Card,SealedProduct,)
+    child_models = (Single, SealedProduct,)
 
 
 
 
-class CardAdmin(PolymorphicChildModelAdmin):
-    base_model = Card
+class SingleAdmin(PolymorphicChildModelAdmin):
+    base_model = Single
 
-admin.site.register(Card, CardAdmin)
+admin.site.register(Single, SingleAdmin)
 
 
 class SealedProductAdmin(PolymorphicChildModelAdmin):
