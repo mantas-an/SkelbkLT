@@ -9,7 +9,7 @@ This project is currently in development.
 ## 🖼️ Screenshots  
 <div align="center">
   
-  <img src="shop/static/shop/images/homepage.png" width="45%" alt="Homepage">
+  <img src="static/shop/images/homepage.png" width="45%" alt="Homepage">
   
 </div>
 
